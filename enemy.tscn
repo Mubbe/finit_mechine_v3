@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://btja5tw2vaoli"]
+
+[ext_resource type="Script" uid="uid://0t31ffit0rym" path="res://Enemy.cs" id="1_7k104"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4gyqm"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="TorusMesh" id="TorusMesh_qi2p4"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7k104"]
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4gyqm"]
+height = 1.0
+
+[node name="Enemy" type="Node3D" unique_id=176678399 node_paths=PackedStringArray("Head", "Area_head")]
+script = ExtResource("1_7k104")
+Head = NodePath("Head/MeshInstance3D")
+Area_head = NodePath("Head/Area3D")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=439172856]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2123114068]
+shape = SubResource("BoxShape3D_4gyqm")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1789455322]
+mesh = SubResource("TorusMesh_qi2p4")
+
+[node name="Head" type="Node3D" parent="." unique_id=1641374945]
+
+[node name="Area3D" type="Area3D" parent="Head" unique_id=1415247190]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Area3D" unique_id=2009215249]
+shape = SubResource("CylinderShape3D_7k104")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=1668170700]
+mesh = SubResource("CylinderMesh_4gyqm")
+
+[connection signal="body_entered" from="Area3D" to="." method="Body_Entered"]
+[connection signal="body_exited" from="Area3D" to="." method="Body_Exited"]
+[connection signal="body_entered" from="Head/Area3D" to="." method="Area_Head_Entered"]
+[connection signal="body_exited" from="Head/Area3D" to="." method="Area_Head_Exited"]
